@@ -1,6 +1,6 @@
 {
   "name": "symbolink",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "author": "Aleksandar Ristevski",
   "license": "MIT",
   "description": "Symbolic linking with config file",
@@ -11,22 +11,13 @@
     "folder",
     "symlink"
   ],
-  "dependencies": {
-    "command-line-args": "^5.2.1",
-    "symlink-dir": "^5.0.1"
-  },
   "bin": {
-    "symbolink": "./index.js"
+    "symbolink": "./src/index.js"
   },
   "scripts": {
     "start": "node index.js",
-    "build": "rm -rf ./lib/* && tsc",
-    "lint": "tslint -p tsconfig.json",
-    "format": "prettier --write \"./src/**/*.ts\" ",
-    "test": "jest --config jestconfig.json",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
+    "build": "rm -rf ./lib/*",
+    "format": "prettier --write \"./src/**/*.js\" ",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
     "pub": "npm version patch --force && npm publish",
@@ -44,5 +35,12 @@
   "bugs": {
     "url": "https://github.com/nicewaytodoit/symbolink/issues"
   },
-  "homepage": "https://github.com/nicewaytodoit/symbolink#readme"
+  "homepage": "https://github.com/nicewaytodoit/symbolink#readme",
+  "dependencies": {
+    "command-line-args": "^5.2.1",
+    "symlink-dir": "^5.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
 }
