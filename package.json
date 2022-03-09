@@ -1,6 +1,6 @@
 {
   "name": "symbolink",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "author": "Aleksandar Ristevski",
   "license": "MIT",
   "description": "Symbolic linking with config file",
@@ -16,7 +16,7 @@
     "symlink-dir": "^5.0.1"
   },
   "bin": {
-    "hello": "./index.js"
+    "symbolink": "./index.js"
   },
   "scripts": {
     "start": "node index.js",
