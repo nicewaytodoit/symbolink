@@ -21,15 +21,15 @@ const COLOR = {
 const log = console.log;
 const loge = (msg) => log(COLOR.red, msg, COLOR.end);
 
-const isEmpty = (value) => ['null', 'undefined', ''].includes((new String(value)).toString().trim());
+const isEmpty = (value) => ['null', 'undefined', ''].includes(new String(value).toString().trim());
 
 let options = undefined;
 try {
     options = commandLineArgs([
-        { name: 'file', alias: 'f',  type: String, multiple: false },
-        { name: 'root', alias: 'r',  type: String, multiple: false },
-        { name: 'link', alias: 'l',  type: String, multiple: false },
-        { name: 'dest', alias: 'd',  type: String, multiple: false },
+        { name: 'file', alias: 'f', type: String, multiple: false },
+        { name: 'root', alias: 'r', type: String, multiple: false },
+        { name: 'link', alias: 'l', type: String, multiple: false },
+        { name: 'dest', alias: 'd', type: String, multiple: false },
     ]);
 } catch (error) {
     if (error?.name === 'UNKNOWN_OPTION') {
@@ -43,42 +43,46 @@ const currentRoot = process.cwd();
 
 // log(options);
 // log(__dirname);
-// log(process.cwd()); 
+// log(process.cwd());
 
-const getPath = (file, root = currentRoot) => path.isAbsolute(file) ? file : path.join(root, file);
+const getPath = (file, root = currentRoot) => (path.isAbsolute(file) ? file : path.join(root, file));
 
 const createAllSymLinks = (links) => {
     // Any file or directory, that has the destination name, is renamed before creating the link
-    Promise
-        .all(links.map((lnk) => new Promise((resolve, reject) => {
-            symlinkDir(lnk.dest, lnk.link)
-                .then((result) => {
-                    return resolve({...result, link: lnk.link});
-                })
-                .catch((err) => {
-                    return reject(err)
-                });
-        })))
+    Promise.all(
+        links.map(
+            (lnk) =>
+                new Promise((resolve, reject) => {
+                    symlinkDir(lnk.dest, lnk.link)
+                        .then((result) => {
+                            return resolve({ ...result, link: lnk.link });
+                        })
+                        .catch((err) => {
+                            return reject(err);
+                        });
+                }),
+        ),
+    )
         .then((results) => {
-            for(var res of results) {
+            for (var res of results) {
                 if (res?.warn) log(COLOR.magenta, `Warning: [${res?.warn}]`, COLOR.end);
             }
             log(COLOR.green, 'Link creation done !', COLOR.end);
         })
         .catch((err) => {
-            loge(err)
+            loge(err);
         });
-}
+};
 
-const getLinks = (links, root) => links
-    .filter((lnk) => !isEmpty(lnk?.link) && !isEmpty(lnk?.dest))
-    .map((lnk) => ({ link: getPath(lnk?.link, root), dest: getPath(lnk?.dest, root) }));
-
+const getLinks = (links, root) =>
+    links
+        .filter((lnk) => !isEmpty(lnk?.link) && !isEmpty(lnk?.dest))
+        .map((lnk) => ({ link: getPath(lnk?.link, root), dest: getPath(lnk?.dest, root) }));
 
 if (options?.file) {
     const filePath = getPath(options?.file);
     if (!fs.existsSync(filePath)) {
-        loge('Config file does not exist', filePath)
+        loge('Config file does not exist', filePath);
     } else {
         const configFile = fs.readFileSync(filePath);
 
@@ -91,12 +95,12 @@ if (options?.file) {
         }
 
         const root = isEmpty(config?.root) ? currentRoot : getPath(config?.root);
-        
-        if (!Array.isArray(config?.links)) { 
-            loge('ERROR: Sym links configuration missing'); 
+
+        if (!Array.isArray(config?.links)) {
+            loge('ERROR: Sym links configuration missing');
         } else {
             const links = getLinks(config?.links, root);
-            for(var a of links) {
+            for (var a of links) {
                 log(COLOR.yellow, `[@](${a.link})`, COLOR.blue, `===> ${a.dest}`, COLOR.end);
             }
             if (links.length > 0) createAllSymLinks(links);
@@ -113,6 +117,6 @@ if (options?.file) {
     }
 }
 
-// [i]dea : Going to version and doing everything with symlinks from one point package@2.3.1 symlink from nodemodules 
+// [i]dea : Going to version and doing everything with symlinks from one point package@2.3.1 symlink from nodemodules
 // chmod +x cli.js
 // npm unlink symbolink
