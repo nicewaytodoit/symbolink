@@ -1,0 +1,7 @@
+{ 
+    "root": "",
+    "links": [
+        { "link": "t1-1", "dest": "./source" },
+        { "link": "t1-2", "dest": "./source" }
+    ]
+}
