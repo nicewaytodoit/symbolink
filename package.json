@@ -26,6 +26,7 @@
     "pub-minor": "npm version minor --force && npm publish"
   },
   "files": [
+    "dist/**/*",
     "lib/**/*",
     "LICENSE"
   ],
