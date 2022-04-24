@@ -89,21 +89,19 @@ if (options?.file) {
         let config = {};
         try {
             config = JSON.parse(configFile);
+            const root = isEmpty(config?.root) ? currentRoot : getPath(config?.root);
+    
+            if (!Array.isArray(config?.links)) {
+                loge('ERROR: Sym links configuration missing');
+            } else {
+                const links = getLinks(config?.links, root);
+                for (var a of links) {
+                    log(COLOR.yellow, `[@](${a.link})`, COLOR.blue, `===> ${a.dest}`, COLOR.end);
+                }
+                if (links.length > 0) createAllSymLinks(links);
+            }
         } catch (error) {
             loge(`ERROR: JSON Parse issue: ${error?.message}`);
-            return;
-        }
-
-        const root = isEmpty(config?.root) ? currentRoot : getPath(config?.root);
-
-        if (!Array.isArray(config?.links)) {
-            loge('ERROR: Sym links configuration missing');
-        } else {
-            const links = getLinks(config?.links, root);
-            for (var a of links) {
-                log(COLOR.yellow, `[@](${a.link})`, COLOR.blue, `===> ${a.dest}`, COLOR.end);
-            }
-            if (links.length > 0) createAllSymLinks(links);
         }
     }
 } else {

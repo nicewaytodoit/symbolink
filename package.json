@@ -12,11 +12,12 @@
     "symlink"
   ],
   "bin": {
-    "symbolink": "./src/index.js"
+    "symbolink": "./dist/bundle.js"
   },
   "scripts": {
     "start": "node index.js",
-    "build": "rm -rf ./lib/*",
+    "build1": "rm -rf ./dist && webpack --config webpack.config.js --mode=production",
+    "clean": "rm -rf ./dist && rm -rf node_modules/ && rm package-lock.json",
     "format": "prettier --write \"./src/**/*.js\" ",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
@@ -37,11 +38,24 @@
   },
   "homepage": "https://github.com/nicewaytodoit/symbolink#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "bluebird": "^3.7.2",
     "command-line-args": "^5.2.1",
     "symlink-dir": "^5.0.1"
   },
   "devDependencies": {
-    "prettier": "^2.5.1"
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "assert": "^2.0.0",
+    "babel-loader": "^8.2.4",
+    "babel-preset-env": "^1.7.0",
+    "eslint-loader": "^4.0.2",
+    "fs": "^0.0.1-security",
+    "import-glob": "^1.5.0",
+    "path-browserify": "^1.0.1",
+    "prettier": "^2.5.1",
+    "util": "^0.12.4",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   }
 }
