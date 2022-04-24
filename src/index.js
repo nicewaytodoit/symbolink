@@ -90,7 +90,7 @@ if (options?.file) {
         try {
             config = JSON.parse(configFile);
             const root = isEmpty(config?.root) ? currentRoot : getPath(config?.root);
-    
+
             if (!Array.isArray(config?.links)) {
                 loge('ERROR: Sym links configuration missing');
             } else {
