@@ -19,3 +19,4 @@ log/
 /lib
 know.md
 .secure.js
+package-lock.json
