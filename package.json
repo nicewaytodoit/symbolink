@@ -1,6 +1,6 @@
 {
   "name": "symbolink",
-  "version": "0.0.9",
+  "version": "0.0.13",
   "author": "Aleksandar Ristevski",
   "license": "MIT",
   "description": "Symbolic linking with config file",
@@ -12,11 +12,11 @@
     "symlink"
   ],
   "bin": {
-    "symbolink": "dist/bundle.js"
+    "symbolink": "./dist/bundle.js"
   },
   "scripts": {
     "start": "node index.js",
-    "build1": "rm -rf ./dist && webpack --config webpack.config.js --mode=production",
+    "build": "rm -rf ./dist && webpack --config webpack.config.js --mode=production",
     "clean": "rm -rf ./dist && rm -rf node_modules/ && rm package-lock.json",
     "format": "prettier --write \"./src/**/*.js\" ",
     "version": "npm run format && git add -A src",

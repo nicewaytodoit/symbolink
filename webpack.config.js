@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = (env, argv) => {
     console.log('@@@', env, argv);
@@ -13,7 +14,8 @@ module.exports = (env, argv) => {
             outputModule: true,
         },
         plugins: [
-        //empty pluggins array
+            //empty pluggins array
+            new webpack.BannerPlugin({ banner: "#!/usr/bin/env node", raw: true }),
         ],
         module: {
             // https://webpack.js.org/loaders/babel-loader/#root
