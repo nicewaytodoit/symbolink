@@ -32,8 +32,8 @@ try {
         { name: 'dest', alias: 'd', type: String, multiple: false },
     ]);
 } catch (error) {
-    if (error?.name === 'UNKNOWN_OPTION') {
-        log(`Unknown Option: [${error?.optionName}]`);
+    if ((error || {}).name === 'UNKNOWN_OPTION') {
+        log(`Unknown Option: [${(error || {}).optionName}]`);
     }
 }
 
@@ -63,24 +63,24 @@ const createAllSymLinks = (links) => {
                 }),
         ),
     )
-        .then((results) => {
-            for (var res of results) {
-                if (res?.warn) log(COLOR.magenta, `Warning: [${res?.warn}]`, COLOR.end);
-            }
-            log(COLOR.green, 'Link creation done !', COLOR.end);
-        })
-        .catch((err) => {
-            loge(err);
-        });
+    .then((results) => {
+        for (var res of results) {
+            if ((res || {}).warn) log(COLOR.magenta, `Warning: [${(res || {}).warn}]`, COLOR.end);
+        }
+        log(COLOR.green, 'Link creation done !', COLOR.end);
+    })
+    .catch((err) => {
+        loge(err);
+    });
 };
 
 const getLinks = (links, root) =>
     links
-        .filter((lnk) => !isEmpty(lnk?.link) && !isEmpty(lnk?.dest))
-        .map((lnk) => ({ link: getPath(lnk?.link, root), dest: getPath(lnk?.dest, root) }));
+        .filter((lnk) => !isEmpty((lnk || {}).link) && !isEmpty((lnk || {}).dest))
+        .map((lnk) => ({ link: getPath((lnk || {}).link, root), dest: getPath((lnk || {}).dest, root) }));
 
-if (options?.file) {
-    const filePath = getPath(options?.file);
+if ((options || {}).file) {
+    const filePath = getPath((options || {}).file);
     if (!fs.existsSync(filePath)) {
         loge('Config file does not exist', filePath);
     } else {
@@ -89,24 +89,24 @@ if (options?.file) {
         let config = {};
         try {
             config = JSON.parse(configFile);
-            const root = isEmpty(config?.root) ? currentRoot : getPath(config?.root);
+            const root = isEmpty((config || {}).root) ? currentRoot : getPath((config || {}).root);
 
-            if (!Array.isArray(config?.links)) {
+            if (!Array.isArray((config || {}).links)) {
                 loge('ERROR: Sym links configuration missing');
             } else {
-                const links = getLinks(config?.links, root);
+                const links = getLinks((config || {}).links, root);
                 for (var a of links) {
                     log(COLOR.yellow, `[@](${a.link})`, COLOR.blue, `===> ${a.dest}`, COLOR.end);
                 }
                 if (links.length > 0) createAllSymLinks(links);
             }
         } catch (error) {
-            loge(`ERROR: JSON Parse issue: ${error?.message}`);
+            loge(`ERROR: JSON Parse issue: ${(error || {}).message}`);
         }
     }
 } else {
-    const root = isEmpty(options?.root) ? currentRoot : getPath(options?.root);
-    const links = getLinks([{ link: options?.link, dest: options?.dest }], root);
+    const root = isEmpty((options || {}).root) ? currentRoot : getPath((options || {}).root);
+    const links = getLinks([{ link: (options || {}).link, dest: (options || {}).dest }], root);
 
     if (links.length > 0) {
         createAllSymLinks(links);

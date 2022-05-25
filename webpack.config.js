@@ -5,13 +5,13 @@ module.exports = (env, argv) => {
     console.log('@@@', env, argv);
     const config = {
         entry: './src/index.js',
-        devtool: (argv.mode === 'development') ? 'cheap-module-source-map' : undefined, //'nosources-source-map', // 'source-map',
+        devtool: (argv.mode === 'development') ? 'source-map' : undefined, //'nosources-source-map', // 'source-map',
         output: {
             path: path.resolve(__dirname, './dist'),
             filename: 'bundle.js',
         },
         experiments: {
-            outputModule: true,
+            outputModule: false,
         },
         plugins: [
             //empty pluggins array
@@ -32,9 +32,9 @@ module.exports = (env, argv) => {
                 "fs": false,
                 "path": false,
                 "os": false,
-                assert: require.resolve('assert'),
-                path: require.resolve('path-browserify'),
-                util: require.resolve('util'),
+                "assert": false, // require.resolve('assert'),
+                "path": false, // require.resolve('path-browserify'),
+                "util": false, // require.resolve('util'),
             },
         },
     };

@@ -12,7 +12,7 @@
     "symlink"
   ],
   "bin": {
-    "symbolink": "./dist/bundle.js"
+    "symbolink": "./src/index.js"
   },
   "scripts": {
     "start": "node index.js",
