@@ -63,15 +63,15 @@ const createAllSymLinks = (links) => {
                 }),
         ),
     )
-    .then((results) => {
-        for (var res of results) {
-            if ((res || {}).warn) log(COLOR.magenta, `Warning: [${(res || {}).warn}]`, COLOR.end);
-        }
-        log(COLOR.green, 'Link creation done !', COLOR.end);
-    })
-    .catch((err) => {
-        loge(err);
-    });
+        .then((results) => {
+            for (var res of results) {
+                if ((res || {}).warn) log(COLOR.magenta, `Warning: [${(res || {}).warn}]`, COLOR.end);
+            }
+            log(COLOR.green, 'Link creation done !', COLOR.end);
+        })
+        .catch((err) => {
+            loge(err);
+        });
 };
 
 const getLinks = (links, root) =>
